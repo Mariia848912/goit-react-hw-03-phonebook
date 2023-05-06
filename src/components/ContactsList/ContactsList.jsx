@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import css from './ContactsList.module.css';
-
+// опопопооопоп
 export const ContactsList = ({ contacts, onClickButtonDelete }) => {
   return (
     <ul className={css.list}>
