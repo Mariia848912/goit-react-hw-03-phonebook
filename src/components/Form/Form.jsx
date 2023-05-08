@@ -1,79 +1,58 @@
-import React, { Component } from 'react';
+import { Formik } from 'formik';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
-import css from './Form.module.css';
+import {
+  FormPhonebook,
+  Input,
+  FormGroup,
+  Label,
+  LabelText,
+  ButtonSubmit,
+} from './Form.styled';
+import { FormError } from './FormError/FormError';
+import { getValidationSchema } from '../utils/getValitadionSchema';
 
-export class Form extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
-  nameInputId = nanoid();
-  numberInputId = nanoid();
-  handleChange = e => {
-    const { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
-  };
+const initialValues = {
+  name: '',
+  number: '',
+};
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.onSubmit(this.state.name, this.state.number);
-    this.resetForm();
-  };
+export const FormContacts = props => {
+  const nameInputId = nanoid();
+  const numberInputId = nanoid();
 
-  resetForm = () => {
-    this.setState({
-      name: '',
-      number: '',
-    });
+  const handleSubmit = (value, actions) => {
+    props.onSubmit(value.name, value.number);
+    actions.resetForm();
   };
 
-  render() {
-    return (
-      <form className={css.form} onSubmit={this.handleSubmit}>
-        <div
-          className={css.formGroup}
-          role="group"
-          aria-labelledby="add-contact-details"
-        >
-          <label htmlFor={this.nameInputId} className={css.label}>
-            <span className={css.text}>Name</span>
-            <input
-              className={css.input}
-              type="text"
-              name="name"
-              value={this.state.name}
-              id={this.nameInputId}
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              required
-              onChange={this.handleChange}
-            />
-          </label>
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={getValidationSchema}
+    >
+      <FormPhonebook>
+        <FormGroup role="group" aria-labelledby="add-contact-details">
+          <Label htmlFor={nameInputId}>
+            <LabelText>Name</LabelText>
 
-          <label htmlFor={this.numberInputId} className={css.label}>
-            <span className={css.text}>Number</span>
-            <input
-              className={css.input}
-              type="tel"
-              name="number"
-              value={this.state.number}
-              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-              required
-              id={this.numberInputId}
-              onChange={this.handleChange}
-            />
-          </label>
-          <button className={css.button} type="submit">
-            Add contact
-          </button>
-        </div>
-      </form>
-    );
-  }
-}
+            <Input type="text" name="name" id={nameInputId} />
+            <FormError name="name" />
+          </Label>
 
-Form.propTypes = {
+          <Label htmlFor={numberInputId}>
+            <LabelText>Number</LabelText>
+            <Input type="tel" name="number" id={numberInputId} />
+            <FormError name="number" />
+          </Label>
+          <ButtonSubmit type="submit">Add contact</ButtonSubmit>
+        </FormGroup>
+      </FormPhonebook>
+    </Formik>
+  );
+};
+
+FormContacts.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };

@@ -1,8 +1,9 @@
-import css from './Container.module.css'
+// import css from './Container.module.css'
 import PropTypes from 'prop-types';
+import { Box } from "./Container.styled";
 
 export const Container = ({ children }) => (
-    <div className={css.container}>{children}</div>
+    <Box>{children}</Box>
 )
 
 Container.propTypes = {
