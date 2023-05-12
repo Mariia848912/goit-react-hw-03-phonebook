@@ -1,22 +1,18 @@
-.list {
+import styled from 'styled-components';
+
+export const List = styled.ul`
   width: 400px;
   margin-left: 20px;
   list-style-position: inside;
-}
+`
 
-/* .item {
-    text-align: center;
-    display: flex;
-    gap: 13px;
-    align-items: center;
-    list-style-type: disc;
-   
-} */
-
-.item:not(:last-child) {
+export const ItemContact = styled.li`
+ &:not(:last-child) {
   margin-bottom: 10px;
 }
-.button {
+`
+
+export const Button = styled.button`
   width: 60px;
   padding: 3px 0;
   margin-left: 13px;
@@ -25,11 +21,11 @@
   border-radius: 5px;
 
   cursor: pointer;
-}
 
-.button:hover {
+  &:hover {
   background-color: #188ce8;
 
   border: 1px solid #188ce8;
   outline: rgba(0, 0, 0, 0);
-}
+  }
+`
